@@ -1,0 +1,6 @@
+requests
+pydantic
+pandas
+flask
+python-dotenv
+matplotlib

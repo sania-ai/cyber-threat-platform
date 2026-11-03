@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cyber Threat Intelligence Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="dashboard-layout">
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">🛡</div>
+
+                <div>
+                    <h2>ThreatIntel</h2>
+                    <span>Risk Analytics</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="#dashboard" class="nav-link active">
+                    <span>▦</span> Dashboard
+                </a>
+
+                <a href="#records" class="nav-link">
+                    <span>⚠</span> Threat Records
+                </a>
+
+                <a href="#analytics" class="nav-link">
+                    <span>▥</span> Analytics
+                </a>
+
+                <a href="#about" class="nav-link">
+                    <span>ⓘ</span> About Platform
+                </a>
+
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="online-indicator"></span>
+                System Monitoring Active
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <!-- TOP NAVIGATION -->
+            <header class="topbar">
+
+                <div>
+                    <h1>Threat Intelligence Dashboard</h1>
+                    <p>Security Monitoring & Risk Analytics</p>
+                </div>
+
+                <div class="topbar-status">
+                    <span class="online-indicator"></span>
+                    System Online
+                </div>
+
+            </header>
+
+
+            <!-- DASHBOARD CONTENT -->
+            <div class="dashboard-content">
+
+                <!-- OVERVIEW -->
+                <section id="dashboard" class="welcome">
+
+                    <div>
+                        <h2>Security Overview</h2>
+
+                        <p>
+                            Monitor URLhaus threat intelligence,
+                            examine URL activity and analyze collected records.
+                        </p>
+                    </div>
+
+                </section>
+
+
+                <!-- STATISTICS CARDS -->
+                <section class="cards">
+
+                    <div class="card">
+                        <h3>Total URLs</h3>
+                        <p id="totalUrls">Loading...</p>
+                        <span class="card-description">
+                            Total database records
+                        </span>
+                    </div>
+
+                    <div class="card">
+                        <h3>Online URLs</h3>
+                        <p id="onlineUrls">Loading...</p>
+                        <span class="card-description">
+                            Records marked online
+                        </span>
+                    </div>
+
+                    <div class="card">
+                        <h3>Offline URLs</h3>
+                        <p id="offlineUrls">Loading...</p>
+                        <span class="card-description">
+                            Records marked offline
+                        </span>
+                    </div>
+
+                    <div class="card">
+                        <h3>Unique Hosts</h3>
+                        <p id="uniqueHosts">Loading...</p>
+                        <span class="card-description">
+                            Distinct hosts recorded
+                        </span>
+                    </div>
+
+                </section>
+
+
+                <!-- ANALYTICS -->
+                <section id="analytics" class="chart-section">
+
+                    <div class="panel">
+
+                        <div class="panel-heading">
+                            <div>
+                                <h2>URL Status Distribution</h2>
+
+                                <p>
+                                    Online and offline URL comparison
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panel-heading">
+                            <div>
+                                <h2>Top 10 Hosts</h2>
+
+                                <p>
+                                    Hosts with the highest URL counts
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="chart-container">
+                            <canvas id="hostsChart"></canvas>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- TREND ANALYSIS -->
+                <section class="panel trend-panel">
+
+                    <div class="panel-heading">
+                        <div>
+                            <h2>URL Threat Trends</h2>
+
+                            <p>
+                                Number of collected URL records over time
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="trend-chart-container">
+                        <canvas id="trendsChart"></canvas>
+                    </div>
+
+                </section>
+
+
+                <!-- THREAT RECORDS -->
+                <section id="records" class="records-section">
+
+                    <div class="panel-heading">
+
+                        <div>
+                            <h2>Threat Intelligence Records</h2>
+
+                            <p>
+                                Search and investigate URLhaus records
+                            </p>
+                        </div>
+
+                        <span class="records-label">
+                            URLhaus Data
+                        </span>
+
+                    </div>
+
+
+                    <!-- SEARCH AND FILTERS -->
+                    <div class="filters">
+
+                        <input
+                            type="text"
+                            id="searchInput"
+                            placeholder="Search URL or host..."
+                        >
+
+                        <select id="statusFilter">
+
+                            <option value="">All Statuses</option>
+                            <option value="online">Online</option>
+                            <option value="offline">Offline</option>
+
+                        </select>
+
+
+                        <select id="riskFilter">
+
+                            <option value="">All Risk Levels</option>
+                            <option value="High">High Risk</option>
+                            <option value="Medium">Medium Risk</option>
+                            <option value="Unclassified">
+                                Unclassified
+                            </option>
+
+                        </select>
+
+
+                        <button id="searchButton">
+                            Search
+                        </button>
+
+                    </div>
+
+
+                    <!-- RECORDS TABLE -->
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>URL</th>
+                                    <th>Host</th>
+                                    <th>Status</th>
+                                    <th>Threat</th>
+                                    <th>Risk Level</th>
+                                    <th>Date Added</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody id="recordsTable">
+
+                                <tr>
+                                    <td colspan="6">
+                                        Loading records...
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <!-- PAGINATION -->
+                    <div class="pagination">
+
+                        <button id="previousButton">
+                            ← Previous
+                        </button>
+
+                        <span id="pageInfo">
+                            Page 1
+                        </span>
+
+                        <button id="nextButton">
+                            Next →
+                        </button>
+
+                    </div>
+
+                </section>
+
+
+                <!-- ABOUT -->
+                <section id="about" class="panel information">
+
+                    <h2>About This Platform</h2>
+
+                    <p>
+                        This Cyber Threat Intelligence and Risk Analytics
+                        Platform collects URL intelligence from URLhaus,
+                        validates and cleans records through a Python ETL
+                        pipeline, stores the processed data in SQLite,
+                        and presents analytical insights through an
+                        interactive Flask dashboard.
+                    </p>
+
+                </section>
+
+
+                <!-- FOOTER -->
+                <footer class="main-footer">
+
+                    Cyber Threat Intelligence & Risk Analytics Platform
+
+                    <span>Data Source: URLhaus</span>
+
+                </footer>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- EXISTING JAVASCRIPT -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
