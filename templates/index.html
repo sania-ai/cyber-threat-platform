@@ -1,11 +1,9 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Cyber Threat Intelligence Dashboard</title>
 
     <link rel="stylesheet"
@@ -23,7 +21,6 @@
 
             <div class="brand">
                 <div class="brand-icon">🛡</div>
-
                 <div>
                     <h2>ThreatIntel</h2>
                     <span>Risk Analytics</span>
@@ -66,7 +63,7 @@
 
                 <div>
                     <h1>Threat Intelligence Dashboard</h1>
-                    <p>Security Monitoring & Risk Analytics</p>
+                    <p>Multi-Source Threat Intelligence & Risk Analytics</p>
                 </div>
 
                 <div class="topbar-status">
@@ -87,8 +84,9 @@
                         <h2>Security Overview</h2>
 
                         <p>
-                            Monitor URLhaus threat intelligence,
-                            examine URL activity and analyze collected records.
+                            Monitor threat intelligence collected from URLhaus
+                            and Feodo Tracker, examine reported indicators,
+                            and review risk-prioritized records.
                         </p>
                     </div>
 
@@ -101,6 +99,7 @@
                     <div class="card">
                         <h3>Total URLs</h3>
                         <p id="totalUrls">Loading...</p>
+
                         <span class="card-description">
                             Total database records
                         </span>
@@ -109,6 +108,7 @@
                     <div class="card">
                         <h3>Online URLs</h3>
                         <p id="onlineUrls">Loading...</p>
+
                         <span class="card-description">
                             Records marked online
                         </span>
@@ -117,6 +117,7 @@
                     <div class="card">
                         <h3>Offline URLs</h3>
                         <p id="offlineUrls">Loading...</p>
+
                         <span class="card-description">
                             Records marked offline
                         </span>
@@ -125,6 +126,7 @@
                     <div class="card">
                         <h3>Unique Hosts</h3>
                         <p id="uniqueHosts">Loading...</p>
+
                         <span class="card-description">
                             Distinct hosts recorded
                         </span>
@@ -205,7 +207,7 @@
                             <h2>Threat Intelligence Records</h2>
 
                             <p>
-                                Search and investigate URLhaus records
+                                Search and investigate reported URLhaus records
                             </p>
                         </div>
 
@@ -226,25 +228,18 @@
                         >
 
                         <select id="statusFilter">
-
                             <option value="">All Statuses</option>
                             <option value="online">Online</option>
                             <option value="offline">Offline</option>
-
                         </select>
 
-
                         <select id="riskFilter">
-
                             <option value="">All Risk Levels</option>
                             <option value="High">High Risk</option>
                             <option value="Medium">Medium Risk</option>
-                            <option value="Unclassified">
-                                Unclassified
-                            </option>
-
+                            <option value="Low">Low Risk</option>
+                            <option value="Unclassified">Unclassified</option>
                         </select>
-
 
                         <button id="searchButton">
                             Search
@@ -259,7 +254,6 @@
                         <table>
 
                             <thead>
-
                                 <tr>
                                     <th>URL</th>
                                     <th>Host</th>
@@ -268,17 +262,14 @@
                                     <th>Risk Level</th>
                                     <th>Date Added</th>
                                 </tr>
-
                             </thead>
 
                             <tbody id="recordsTable">
-
                                 <tr>
                                     <td colspan="6">
                                         Loading records...
                                     </td>
                                 </tr>
-
                             </tbody>
 
                         </table>
@@ -313,11 +304,16 @@
 
                     <p>
                         This Cyber Threat Intelligence and Risk Analytics
-                        Platform collects URL intelligence from URLhaus,
-                        validates and cleans records through a Python ETL
-                        pipeline, stores the processed data in SQLite,
-                        and presents analytical insights through an
-                        interactive Flask dashboard.
+                        Platform collects threat intelligence from URLhaus
+                        and Feodo Tracker, validates and normalizes
+                        indicators through a Python ETL pipeline,
+                        stores structured records in SQLite, and presents
+                        analytical insights through an interactive
+                        Flask dashboard.
+
+                        The platform supports threat categorization,
+                        investigation-priority risk scoring, data analysis,
+                        and monitoring of collected threat intelligence.
                     </p>
 
                 </section>
@@ -328,7 +324,9 @@
 
                     Cyber Threat Intelligence & Risk Analytics Platform
 
-                    <span>Data Source: URLhaus</span>
+                    <span>
+                        Intelligence Sources: URLhaus & Feodo Tracker
+                    </span>
 
                 </footer>
 
