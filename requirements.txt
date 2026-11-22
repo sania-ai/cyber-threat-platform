@@ -4,3 +4,4 @@ pandas
 flask
 python-dotenv
 matplotlib
+gunicorn
