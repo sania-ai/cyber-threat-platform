@@ -1,4 +1,3 @@
-
 import sqlite3
 from pathlib import Path
 
@@ -198,7 +197,7 @@ def get_urls():
         return jsonify({"error": "Database not found"}), 500
 
     search = request.args.get("search", "").strip()
-    status_filter = request.args.get("status", "").strip()
+    status_filter = request.args.get("status", "").strip().lower()
     risk_filter = request.args.get("risk", "").strip()
 
     allowed_risks = ("", "High", "Medium", "Low", "Unclassified")
@@ -210,7 +209,8 @@ def get_urls():
         page = max(1, int(request.args.get("page", 1)))
         per_page = min(
             100,
-            max(1, int(request.args.get("per_page", 10))))
+            max(1, int(request.args.get("per_page", 10)))
+        )
     except ValueError:
         return jsonify({"error": "Invalid pagination values"}), 400
 
@@ -222,25 +222,17 @@ def get_urls():
         parameters.extend([f"%{search}%", f"%{search}%"])
 
     if status_filter in ("online", "offline"):
-        conditions.append("u.url_status = ?")
+        conditions.append("LOWER(u.url_status) = ?")
         parameters.append(status_filter)
 
-    # Risk is taken from the stored normalized score,
-    # not from online/offline status.
+    # Status-based dashboard classification.
+    # Online URLs are labelled High and offline URLs Medium.
     risk_expression = """
-        COALESCE(
-            (
-                SELECT r.risk_level
-                FROM threat_records t
-                JOIN risk_scores r
-                    ON r.threat_record_id = t.id
-                WHERE t.source = 'URLhaus'
-                  AND t.indicator = u.url
-                ORDER BY r.calculated_at DESC
-                LIMIT 1
-            ),
-            'Unclassified'
-        )
+        CASE
+            WHEN LOWER(u.url_status) = 'online' THEN 'High'
+            WHEN LOWER(u.url_status) = 'offline' THEN 'Medium'
+            ELSE 'Unclassified'
+        END
     """
 
     if risk_filter:
@@ -325,7 +317,8 @@ def get_threat_records():
         page = max(1, int(request.args.get("page", 1)))
         per_page = min(
             100,
-            max(1, int(request.args.get("per_page", 10))))
+            max(1, int(request.args.get("per_page", 10)))
+        )
     except ValueError:
         return jsonify({"error": "Invalid pagination values"}), 400
 
